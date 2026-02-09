@@ -20,7 +20,7 @@ public class Niveau {
 
 // supprime le contenu de la case à la ligne i et à la colonne j
     void videCase(int i, int j){
-        this.map[i][j]='\0';
+        this.map[i][j]=' ';
         }
 
 // La suite de ces fonctions modifient le contenu de la map
@@ -102,7 +102,7 @@ public class Niveau {
 
 // info sur les cases
     boolean estVide(int l, int c){
-        if (this.map[l][c]=='\0') {
+        if (this.map[l][c]==' ') {
             return true;
         } else {
             return false;

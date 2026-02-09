@@ -10,7 +10,7 @@ public class LecteurNiveaux {
     
     // Renvoie le niveau lu ou null si la fin du flux à été atteinte. Le niveau est décrit textuellement sur le flux d'entrée
     // ligne par ligne.
-    Niveau lisProchainNiveau(InputStream in){
+    Niveau lisProchainNiveau(){
         Niveau current = new Niveau();
         int i = 0;
         int nb_colonne=0;
@@ -50,6 +50,8 @@ public class LecteurNiveaux {
 
                     } else if (ligne.charAt(j)=='.') {
                         current.ajouteBut(i, j);
+                    } else {
+                        current.videCase(i, j);
                     }
                     if (j>nb_colonne) {
                         nb_colonne=j;
@@ -58,7 +60,10 @@ public class LecteurNiveaux {
                 i++;
         }
         }
-        
+        // fin du fichier, à revoir
+        if (current.nom().equals("Vide")) {
+            return null;
+        }
         return current;
     }
 }
