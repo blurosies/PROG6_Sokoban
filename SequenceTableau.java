@@ -1,5 +1,5 @@
 
-public class SequenceTableau {
+public class SequenceTableau implements Sequence {
     private int MAX_LENGTH = 25;
     int [] tableau;
     int nbElem;
@@ -13,13 +13,57 @@ public class SequenceTableau {
         this.debut=0;
 }
 
+    class Iterateur {
+
+        int current_ind;
+        int elem_parcourus;
+        boolean supprimable;
+
+        Iterateur(){
+            current_ind=debut;
+            elem_parcourus=0;
+        }
+
+        boolean aProchain(){
+            return this.elem_parcourus<nbElem;
+        }
+
+        int prochain(){
+            if (!this.aProchain()) {
+                throw new RuntimeException("Pas de prochain");
+            }
+            this.elem_parcourus++;
+            this.current_ind= (this.current_ind+1)%tableau.length;
+            this.supprimable=true;
+            return tableau[(this.current_ind-1+tableau.length)%tableau.length];
+        }
+
+        void supprime(){
+            if (supprimable) {
+                this.supprimable=false;
+                int indice=current_ind;
+                for (int i = 0; i < nbElem-elem_parcourus; i++) {
+                    int curr_int=tableau[indice];
+                    tableau[(indice-1+tableau.length)%tableau.length]=curr_int;
+                    indice=(indice+1)%tableau.length;
+                }
+                nbElem--;
+                elem_parcourus--;
+                current_ind=(current_ind-1+tableau.length)%tableau.length;
+            } else {
+                throw new IllegalStateException("Impossible de supprimer"); 
+            }
+            
+        }
+    }
+
 // insère l'élément nommé element en début de séquence (en première position) 
-    void insereTete(int element){
+    public void insereTete(int element){
     // cas tableau plein, redimensionner
         if (nbElem>=this.tableau.length) {
             int [] newtableau = new int[this.tableau.length*2];
             // copier du debut jusqu'a la fin (physique) du tab
-            System.arraycopy(this.tableau, debut , newtableau, 0 , nbElem-debut);
+            System.arraycopy(this.tableau, debut , newtableau, 0 , tableau.length-debut);
             // coller le reste a la suite de la premiere partie copiée
             System.arraycopy(this.tableau, 0 , newtableau, nbElem-debut , debut);
             // reset des parametres
@@ -34,7 +78,7 @@ public class SequenceTableau {
 }
 
 // insère l'élément nommé element en fin de séquence (en dernière position) 
-    void insereQueue(int element){
+    public void insereQueue(int element){
         // cas tableau plein, redimensionner
         if (nbElem>=this.tableau.length) {
             int [] newtableau = new int[this.tableau.length*2];
@@ -55,7 +99,7 @@ public class SequenceTableau {
 
 // extrait et renvoie la valeur de l'élément situé en début de séquence (en première position) 
 // exception si vide
-    int extraitTete(){
+    public int extraitTete(){
         if (this.estVide()) {
             throw new RuntimeException("File Vide");
         }
@@ -66,10 +110,13 @@ public class SequenceTableau {
     }
 
 // renvoie vrai si et seulement si la séquence est vide
-    boolean estVide(){
+    public boolean estVide(){
         return this.nbElem==0;
     }
 
+    public Iterateur iterateur() {
+        return new Iterateur();
+}
 // fonction pour affichage
     public String toString(){
         StringBuilder tab = new StringBuilder("[ ");
