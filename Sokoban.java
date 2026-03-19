@@ -20,32 +20,77 @@ public class Sokoban {
                 }
                 fichier.close();
             }
-
-            //  // Test SequenceListe + interface
-            if (args[0].equals("1")) {
-                SequenceListe liste = new SequenceListe();
-                liste.insereTete(1);
-                liste.insereTete(2);
-                liste.insereQueue(3);
-                System.err.println(liste.toString());  
-            }
-
-            //  // Test SequenceTableau (testé avec max length 2 pour verif redimensionnage) + interface
-            if (args[0].equals("2")) {
+            
+            //  // Test global des tableaux + itérateurs
+            if (args[0].equals("3")) {
                 SequenceTableau tab = new SequenceTableau();
-                System.out.println(tab.estVide());
-                System.out.println(tab.toString());
-                tab.insereTete(1);
-                tab.insereTete(2);
-                tab.insereQueue(3);
-                System.out.println(tab.toString());
-                tab.insereTete(1);
-                tab.insereTete(2);
-                tab.insereTete(1);
-                tab.insereTete(2);
-                System.out.println(tab.toString());
-                System.out.println(tab.extraitTete());
-            }
+                for (int i = 0; i < 30; i++) {
+                    
+                    if(tab.nbElem%2==0){
+                        tab.insereTete(i);
+                    }else {
+                        tab.insereQueue(i);
+                    }
+
+                    System.out.println(tab.toString());
+                }
+
+                Iterateur it1 = tab.iterateur();
+                System.out.print("Éléments lus par l'itérateur : ");
+        
+                while (it1.aProchain()) {
+                    System.out.print(it1.prochain() + " ");
+                }
+                System.out.println();
+
+                Iterateur it2 = tab.iterateur();
+        
+                while (it2.aProchain()) {
+                    int valeur = it2.prochain();
+                    if (valeur % 5 == 0) {
+                        System.out.println("-> Suppression du nombre : " + valeur);
+                        it2.supprime();
+                    }
+                }
+        
+            System.out.println("Séquence finale : \n" + tab.toString());
+         }
+
+        //  // Test global des Listes + itérateurs
+            if (args[0].equals("4")) {
+                SequenceListe liste = new SequenceListe();
+                for (int i = 0; i < 30; i++) {
+                    
+                    if(i%2==0){
+                        liste.insereTete(i);
+                    }else {
+                        liste.insereQueue(i);
+                    }
+
+                    System.out.println(liste.toString());
+                }
+
+                Iterateur it1 = liste.iterateur();
+                System.out.print("Éléments lus par l'itérateur : ");
+        
+                while (it1.aProchain()) {
+                    System.out.print(it1.prochain() + " ");
+                }
+                System.out.println();
+
+                Iterateur it2 = liste.iterateur();
+        
+                while (it2.aProchain()) {
+                    int valeur = it2.prochain();
+                    if (valeur % 5 == 0) {
+                        System.out.println("-> Suppression du nombre : " + valeur);
+                        it2.supprime();
+                    }
+                }
+        
+            System.out.println("Séquence finale : \n" + liste.toString());
+         }
+
 
 
 

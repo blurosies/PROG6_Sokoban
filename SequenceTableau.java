@@ -13,22 +13,22 @@ public class SequenceTableau implements Sequence {
         this.debut=0;
 }
 
-    class Iterateur {
+    class IterateurTab implements Iterateur {
 
         int current_ind;
         int elem_parcourus;
         boolean supprimable;
 
-        Iterateur(){
+        IterateurTab(){
             current_ind=debut;
             elem_parcourus=0;
         }
 
-        boolean aProchain(){
+        public boolean aProchain(){
             return this.elem_parcourus<nbElem;
         }
 
-        int prochain(){
+        public int prochain(){
             if (!this.aProchain()) {
                 throw new RuntimeException("Pas de prochain");
             }
@@ -38,7 +38,7 @@ public class SequenceTableau implements Sequence {
             return tableau[(this.current_ind-1+tableau.length)%tableau.length];
         }
 
-        void supprime(){
+        public void supprime(){
             if (supprimable) {
                 this.supprimable=false;
                 int indice=current_ind;
@@ -115,7 +115,7 @@ public class SequenceTableau implements Sequence {
     }
 
     public Iterateur iterateur() {
-        return new Iterateur();
+        return new IterateurTab();
 }
 // fonction pour affichage
     public String toString(){

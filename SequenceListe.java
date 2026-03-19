@@ -18,24 +18,24 @@ public class SequenceListe implements Sequence {
         this.tete=null;
 }
 
-    class Iterateur {
+    class IterateurListe implements Iterateur{
 
         Maillon current;
         Maillon precedent;
         Maillon precedent2;
         boolean supprimable;
 
-        Iterateur(){
+        IterateurListe(){
             this.current=tete;
             this.precedent=null;
             this.precedent2=null;
         }
 
-        boolean aProchain(){
+        public boolean aProchain(){
             return this.current!=null;
         }
 
-        int prochain(){
+         public int prochain(){
             if (!this.aProchain()) {
                 throw new RuntimeException("Pas de prochain");
             }
@@ -46,7 +46,7 @@ public class SequenceListe implements Sequence {
             return this.precedent.valeur;
         }
 
-        void supprime(){
+         public void supprime(){
             if (supprimable) {
                 this.supprimable=false;
                 // supression du tout premier élément
@@ -104,7 +104,7 @@ public class SequenceListe implements Sequence {
     }
 
     public Iterateur iterateur() {
-        return new Iterateur();
+        return new IterateurListe();
     }
 
 // fonction pour affichage et débugage
